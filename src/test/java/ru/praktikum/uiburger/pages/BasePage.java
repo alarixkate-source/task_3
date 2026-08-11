@@ -9,6 +9,7 @@ import java.time.Duration;
 public abstract class BasePage {
     protected WebDriver driver;
     protected WebDriverWait wait;
+    protected final String BASE_URL = "https://qa-stellarburgers.education-services.ru/";
 
     public BasePage(WebDriver driver) {
         this.driver = driver;

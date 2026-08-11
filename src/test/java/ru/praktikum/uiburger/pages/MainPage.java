@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.By;
 
 public class MainPage extends BasePage {
 
@@ -25,6 +26,7 @@ public class MainPage extends BasePage {
     @FindBy(xpath = "//button[contains(@class, 'button_button_type_primary') and text()='Оформить заказ']")
     private WebElement orderButton;
 
+    // табы конструктора
     @FindBy(xpath = "//span[text()='Булки']/parent::div")
     private WebElement bunsTab;
 
@@ -34,14 +36,9 @@ public class MainPage extends BasePage {
     @FindBy(xpath = "//span[text()='Начинки']/parent::div")
     private WebElement fillingsTab;
 
-    @FindBy(xpath = "//h2[text()='Булки']")
-    private WebElement bunsHeader;
-
-    @FindBy(xpath = "//h2[text()='Соусы']")
-    private WebElement saucesHeader;
-
-    @FindBy(xpath = "//h2[text()='Начинки']")
-    private WebElement fillingsHeader;
+    // Активный таб (для проверки)
+    @FindBy(xpath = "//div[contains(@class, 'tab_tab_type_current__2BEPc')]")
+    private WebElement activeTab;
 
     public MainPage(WebDriver driver) {
         super(driver);
@@ -67,7 +64,7 @@ public class MainPage extends BasePage {
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", logo);
         }
         // Ожидаем, что произойдёт переход на главную страницу
-        wait.until(ExpectedConditions.urlToBe("https://qa-stellarburgers.education-services.ru/"));
+        wait.until(ExpectedConditions.urlToBe(BASE_URL));
     }
 
     @Step("Нажимаем на кнопку «Конструктор»")
@@ -88,6 +85,10 @@ public class MainPage extends BasePage {
         } catch (Exception e) {
             return false;
         }
+    }
+    @Step("Проверяем, отображается ли кнопка «Войти в аккаунт»")
+    public boolean isLoginButtonDisplayed() {
+        return loginButtonMain.isDisplayed();
     }
 
     @Step("Нажимаем на таб «Булки»")
@@ -119,19 +120,23 @@ public class MainPage extends BasePage {
             ((JavascriptExecutor) driver).executeScript("arguments[0].click();", fillingsTab);
         }
     }
-
-    @Step("Проверяем, отображается ли заголовок раздела «Булки»")
-    public boolean isBunsHeaderDisplayed() {
-        return wait.until(ExpectedConditions.visibilityOf(bunsHeader)).isDisplayed();
+    // Проверяем активный таб
+    @Step("Проверяем, активен ли таб «Булки»")
+    public boolean isBunsTabActive() {
+        wait.until(ExpectedConditions.visibilityOf(activeTab));
+        return activeTab.getText().equals("Булки");
     }
 
-    @Step("Проверяем, отображается ли заголовок раздела «Соусы»")
-    public boolean isSaucesHeaderDisplayed() {
-        return wait.until(ExpectedConditions.visibilityOf(saucesHeader)).isDisplayed();
+    @Step("Проверяем, активен ли таб «Соусы»")
+    public boolean isSaucesTabActive() {
+        wait.until(ExpectedConditions.visibilityOf(activeTab));
+        return activeTab.getText().equals("Соусы");
     }
 
-    @Step("Проверяем, отображается ли заголовок раздела «Начинки»")
-    public boolean isFillingsHeaderDisplayed() {
-        return wait.until(ExpectedConditions.visibilityOf(fillingsHeader)).isDisplayed();
+    @Step("Проверяем, активен ли таб «Начинки»")
+    public boolean isFillingsTabActive() {
+        wait.until(ExpectedConditions.visibilityOf(activeTab));
+        return activeTab.getText().equals("Начинки");
     }
+
 }

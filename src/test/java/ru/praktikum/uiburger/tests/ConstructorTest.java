@@ -12,31 +12,31 @@ public class ConstructorTest extends BaseTest {
 
     @Test
     @DisplayName("Переключение на раздел 'Булки'")
-    @Description("Проверяет, что после клика на таб 'Булки' отображается заголовок раздела 'Булки'")
+    @Description("Проверяет, что после клика на таб 'Булки' он становится активным")
     public void switchToBuns() {
         driver.get(BASE_URL);
         MainPage mainPage = new MainPage(driver);
         mainPage.clickBunsTab();
-        assertTrue(mainPage.isBunsHeaderDisplayed(), "Заголовок 'Булки' не отображается");
+        assertTrue(mainPage.isBunsTabActive(), "Таб 'Булки' не активен");
     }
 
     @Test
     @DisplayName("Переключение на раздел 'Соусы'")
-    @Description("Проверяет, что после клика на таб 'Соусы' отображается заголовок раздела 'Соусы'")
+    @Description("Проверяет, что после клика на таб 'Соусы' таб активен")
     public void switchToSauces() {
         driver.get(BASE_URL);
         MainPage mainPage = new MainPage(driver);
         mainPage.clickSaucesTab();
-        assertTrue(mainPage.isSaucesHeaderDisplayed(), "Заголовок 'Соусы' не отображается");
+        assertTrue(mainPage.isSaucesTabActive(), "Таб 'Соусы' не активен");
     }
 
     @Test
     @DisplayName("Переключение на раздел 'Начинки'")
-    @Description("Проверяет, что после клика на таб 'Начинки' отображается заголовок раздела 'Начинки'")
+    @Description("Проверяет, что после клика на таб 'Начинки' таб активен")
     public void switchToFillings() {
         driver.get(BASE_URL);
         MainPage mainPage = new MainPage(driver);
         mainPage.clickFillingsTab();
-        assertTrue(mainPage.isFillingsHeaderDisplayed(), "Заголовок 'Начинки' не отображается");
+        assertTrue(mainPage.isFillingsTabActive(), "таб 'Начинки' не активен");
     }
 }

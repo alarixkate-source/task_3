@@ -12,7 +12,7 @@ import ru.praktikum.uiburger.pages.RegisterPage;
 
 import java.time.Duration;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Тесты регистрации")
 public class RegisterTest extends BaseTest {
@@ -62,6 +62,13 @@ public class RegisterTest extends BaseTest {
         assertTrue(errorText.contains("Некорректный пароль") ||
                         errorText.contains("Пароль должен быть не менее 6 символов"),
                 "Неверное сообщение об ошибке: " + errorText);
-        // Пользователь не создан, удаление не требуется
+        // Проверяем через API, что пользователь не создался
+        Response loginResponse = userClient.login(user);
+        if (loginResponse.statusCode() == 200) {
+            // Если вдруг создался – удаляем и падаем с ошибкой
+            accessToken = loginResponse.jsonPath().getString("accessToken");
+            fail("Пользователь с коротким паролем был создан, хотя ожидалась ошибка");
+        }
+        // Если 401 – всё ок, пользователь не создан
     }
 }
